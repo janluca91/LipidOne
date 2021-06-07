@@ -9,9 +9,9 @@ LipidOne ..... is a general purpose extensible graphical user interface toolkit 
 
 PREREQUISITES
 -------------
-Microsoft Windows 64-bit 
-Graphic library
-- GNUPLOT link....
+Microsoft Windows 64-bit
+
+GNUPLOT Graphic library http://www.gnuplot.info/ or https://sourceforge.net/projects/gnuplot/files/gnuplot/5.4.2/
 
 
 MORE INFORMATION
