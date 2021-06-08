@@ -5,19 +5,21 @@ An in-depth and user-friendly lipidomic data analysis tool
 DESCRIPTION
 -----------
 
-LipidOne ..... is a general purpose extensible graphical user interface toolkit with a rich set of standard widgets and an emphasis on 2D image processing tasks. A Perl program using PRIMA looks and behaves identically on X11 and Win32.
+LC/MS-based analysis techniques combined with specialised lipid platforms allow for the qualitative and quantitative determination of thousands of lipid molecules. Each individual molecule can be considered as an assembly of smaller parts, often called building blocks. Some recent bioinformatics tools have been developed to study changes in the lipid profile in case-control experiments and link these changes to different enzyme activity or gene expression. However, the changes considered concern only the assembled lipid molecules. Lipid building blocks are the result of a myriad of biochemical synthesis and transformation processes that, from a systems biology perspective, should not be ignored. Here we present a new lipidomic tool called LipidOne, which automatically highlights all qualitative and quantitative changes in lipid building blocks both among all detected lipid classes and among experimental groups. Now, the discovered differences can be easily linked to the activity of specific enzyme classes.
+
+
+LipidOne is a stand alone software entirely written in Perl and implemented for the Microsoft Windows operating system. Each operation is made very simple thanks to the Graphical User Interface, developed by using Perl Prima (http://www.prima.eu.org/) and Gnuplot (http://www.gnuplot.info/) libraries. 
 
 PREREQUISITES
 -------------
 Microsoft Windows 64-bit
 
-GNUPLOT Graphic library http://www.gnuplot.info/ or https://sourceforge.net/projects/gnuplot/files/gnuplot/5.4.2/
+GNUPLOT Graphic library. Download at http://www.gnuplot.info/ or https://sourceforge.net/projects/gnuplot/files/gnuplot/5.4.2/
 
 
 MORE INFORMATION
 ----------------
-The toolkit contains set of POD files describing its features, and the programming interfaces. Run 'podview Prima' or 'perldoc Prima' command to start with the main manual page.
-Visit http://www.prima.eu.org/ for the recent versions of the toolkit. You can use github.com/dk/Prima to keep in touch. The mailing list on the toolkit is available, you can ask questions there. See the Prima homepage for details.
+LipidOne is a freely available and easy-to-use software to discover the deeper features of building blocks in a lipidomic dataset. The example reported in Supplementary Information of our study (LINK) demonstrates its effectiveness in revealing differences that can easily be attributed to different enzymatic activity in the biological system studied.
 
 AUTHOR
 ------
