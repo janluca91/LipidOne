@@ -1,8 +1,5 @@
 #!/usr/bin/perl
  
-use strict;
-use warnings;
-
 use Cwd;  
 use Data::Dumper;
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
