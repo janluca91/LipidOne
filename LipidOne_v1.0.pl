@@ -892,7 +892,7 @@ sub crea_file_gnuplot ()
       }
   }
 
-  $filegnuplot = $dir.'\data.dat';  
+  $filegnuplot = $dir.'/data.dat';  
   open(FILEOUT, '>', $filegnuplot) or die $!;
   if ($parametro==1) {print FILEOUT "Classes"; @dausare=@classes; }	
   if ($parametro==2) {print FILEOUT "Chain length"; @dausare=@catene_in_classe;}   
@@ -1116,7 +1116,7 @@ sub crea_image()
   my @comandi;
   my $chart = Chart::Gnuplot->new();
   $comandi[0]='set terminal png size '.($panel_RIGHT-> width).','.(($panel_RIGHT-> height)*91/100); 
-  $comandi[1]='set output \''. $dir. '\graph.png\'';
+  $comandi[1]='set output \''. $dir. '/graph.png\'';
   if ($parametro == 2) {
      $comandi[2]='set multiplot layout 2,1 rowsfirst';
      }
@@ -1337,7 +1337,7 @@ sub export_table {
   {
   @gruppi_export=values %samples;
   @gruppi_export = do { my %seen; grep { !$seen{$_}++ } @gruppi_export };
-  my $fileout = $dir.'\output.txt';  
+  my $fileout = $dir.'/output.txt';  
   open(FILEOUT, '>', $fileout) or die $!;
   print "Sample";
   print FILEOUT "Sample";
