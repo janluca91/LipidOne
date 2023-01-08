@@ -1,6 +1,7 @@
 #!/usr/bin/perl
  
-use Cwd;  
+use warnings;
+use Cwd;   
 use Data::Dumper;
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
 use Statistics::Descriptive;
@@ -48,7 +49,7 @@ my $window = Prima::Window-> new(
      text => 'LipidOne v1.0',
      menuItems => [
         [ '~File' => [
-           [ '~Open', 'Ctrl+O', '^O', \&open_file ],
+           [ '~Open', 'Ctrl+O', '^O', \&onOpenFile ],
            [],
            [ '~Exit', 'Alt+X', km::Alt | ord('x'), sub { $::application-> close } ], 
         ]],
@@ -110,9 +111,11 @@ $::application-> close;
 
 sub open_file ()
 {
+ my $filename= $_[0];
+ my $toExecute=$_[1];
  %tabella_madre=();
-  if ($open-> execute) {
-      open(FILEIN, '<', $open-> fileName) or die $!; 
+  if ($toExecute) {
+      open(FILEIN, '<', $filename) or die $!; 
       $dir = getcwd;
       $submit->destroy if ($submit);
       if ($grid) {$label2->destroy; $grid->destroy; $panel_RIGHT->update_view();} 
@@ -232,9 +235,9 @@ sub inserisci_tabella_input()
 
  sub print_label2 ()
  {
+ my $filename=$_[0];
  $num_samples=scalar(%samples);
  $num_gruppi=scalar(@gruppi_unique);
- $filename=$open-> fileName;
  $unique_chains=scalar(@names);
  $unique_classes=scalar(@classes);
  return ("Uploaded file: $filename\nData processing information:\nDetected $num_samples samples, $num_gruppi groups, $unique_chains lipid chain types grouped into $unique_classes lipid classes.\n");
@@ -247,7 +250,7 @@ sub inserisci_tabella_input()
                 size => [$panel_RIGHT-> width, ($panel_RIGHT-> width)*14/100],
                 wordWrap => 1,   
                 valignment=> ta::Center,  
-                text => print_label2()   
+                text => &print_label2($open-> fileName)  
 );
 
  $label_gruppi=$panel_LEFT->insert(Label => 
@@ -788,6 +791,7 @@ sub collect_options()
 sub crea_file_gnuplot ()
 {
  $parametro=$_[0]; 
+ print "\ncrea file gnuplot chiamato con parametro: ".$parametro;
  @catene_in_classe=();
  @asseXgraph2=();
  @asseXgraph2_pulito=();
@@ -1113,6 +1117,10 @@ sub crea_image()
   my $param=$_[0];  
   my $title_analysis=$_[1];
   my $title_class=$_[2];
+  print "\ncrea_image chiamato con i parametri:";
+  print "\nparametro0: ".$param;
+  print "\nparametro1: ".$title_analysis;
+  print "\nparametro2: ".$title_class;
   my @comandi;
   my $chart = Chart::Gnuplot->new();
   $comandi[0]='set terminal png size '.($panel_RIGHT-> width).','.(($panel_RIGHT-> height)*91/100); 
@@ -1391,5 +1399,9 @@ sub export_table {
  }
 } 
 
+sub onOpenFile(){
+	print "onOpenFile";
+	&open_file($open-> fileName,$open ->execute);
+}
 
 Prima->run;
