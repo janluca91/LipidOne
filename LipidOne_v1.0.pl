@@ -1,6 +1,5 @@
 #!/usr/bin/perl
- 
-use warnings;
+
 use Cwd;   
 use Data::Dumper;
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
@@ -204,7 +203,7 @@ sub open_file ()
         $submit=$panel_LEFT-> insert( Button =>
  	   text   => '~SUBMIT',
 	   pack   => { side => 'bottom' , padx => 20 },
-          onClick => sub{ &collect_options; &load_image;},
+          onClick => \&onSubmit
        );
      }
  } 
@@ -708,12 +707,6 @@ sub CLASSES()
 
 sub collect_options()     
 {
- @elenco_gruppi=();
- if (  $opzioni_gruppi-> count) {
-		for ( 0 .. $opzioni_gruppi-> count - 1) {
-			push @elenco_gruppi, $opzioni_gruppi-> get_item_text($_) if $opzioni_gruppi-> button($_);
-		}
-	}
  if ($radio1->checked) {
     $titolo_analisi=$radio1->text;
     $titolo_classe='';
@@ -1404,4 +1397,16 @@ sub onOpenFile(){
 	&open_file($open-> fileName,$open ->execute);
 }
 
+sub onSubmit()
+{
+	@elenco_gruppi=();
+	if (  $opzioni_gruppi-> count) {
+		for ( 0 .. $opzioni_gruppi-> count - 1) {
+			printf $opzioni_gruppi-> get_item_text($_);
+			push @elenco_gruppi, $opzioni_gruppi-> get_item_text($_) if $opzioni_gruppi-> button($_);
+		}
+	}
+	&collect_options; 
+	&load_image;
+}
 Prima->run;
