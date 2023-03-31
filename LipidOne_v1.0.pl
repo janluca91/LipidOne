@@ -111,101 +111,99 @@ $::application-> close;
 sub open_file ()
 {
  my $filename= $_[0];
- my $toExecute=$_[1];
+ print "filename:".$filename;
  %tabella_madre=();
-  if ($toExecute) {
-      open(FILEIN, '<', $filename) or die $!; 
-      $dir = getcwd;
-      $submit->destroy if ($submit);
-      if ($grid) {$label2->destroy; $grid->destroy; $panel_RIGHT->update_view();} 
-      $options_CLASS->destroy if ($options_CLASS); 
-      $options_CLASS_CHAINS->destroy if ($options_CLASS_CHAINS);
-      @table=(); 
-      @first_column=();
-      @names=();
-      @classes_unfiltered=(); 
-      @class_parsed=();
-      @total_first_column=();
-      @classes=();
-      @total_first_column_OX=();
-      @OX=();
-      @row=();
-      @splitted=();
-      $r=0;
-      while(<FILEIN>){
-         chomp $_;
-         $firstrow=$_;
-         if ((!($_ =~ /\t/)) && ($_ ne '')) {     
-            @table=();
-            $opzioni_gruppi->destroy if $opzioni_gruppi;
-            $analisi->destroy if $analisi;
-            $label_gruppi->destroy if $label_gruppi;
-            Prima::MsgBox::message_box( 'LipidOne', "Invalid Format: please use TAB-delimited data", mb::Ok); 
-            last;
-         }   
-         if ($_ eq '') {     
-         next;
-         }
-         $_ =~ s/,/\./g; 
-         $_ =~ s/[_\/]0:0//g;
-         @row=split ("\t",$_);
-         if ($r<=1) { 
-            for ($c=0; $c<=$#row; $c++) { $table[$r][$c]=$row[$c]; } 
-            $r++;
-          } 
-        elsif ($r>1) { 
-        @class_parsed=split (" ", $row[0]);
-        if (( () = $row[0] =~ m{_}g ) == $chains_for_classes{$class_parsed[0]}-1)   
-           {
-           for ($c=0; $c<=$#row; $c++) {  
-              $table[$r][$c]=$row[$c]; 
-              }
-           push (@first_column , $row[0]);
-           push (@classes_unfiltered, $class_parsed[0]);
-           $r++;
-           } 
-        }      
-     } 
-     close (FILEIN);
-     @classes = do { my %seen; grep { !$seen{$_}++ } @classes_unfiltered };
-     @classes= sort @classes;
-     foreach my $element (@first_column) 
-      {
-      $element=~ s/\s+$//; 
-      @splitted = split(/[_]/, $element );
-      if ($splitted[0]=~ /^[A-Za-z]/) {
-          $splitted[0]=~ s/[A-Za-z;-]*\s//g; 
-         } 
-      push (@total_first_column, @splitted);
-     }
-     @names = do { my %seen; grep { !$seen{$_}++ } @total_first_column };
-     @names= sort @names;
-   
-    foreach my $element (@first_column) {
-       @splitted_OX = split(/[_\-\s;()]/, $element );
-       if ($splitted_OX[0]=~ /^[A-Za-z]/) {
-            $splitted_OX[0]= ''; 
-           } 
-      foreach my $element2 (@splitted_OX) {
-          if (( () = $element2 =~ m{O}g ) > 0) {       
-              push (@total_first_column_OX, $element2);
-            }
-       }
-     } 
-     @OX = do { my %seen; grep { !$seen{$_}++ } @total_first_column_OX };
-     @OX= sort @OX;
-      
-    if ($firstrow =~ /\t/) {  
-        $image->destroy if $image;  
-        inserisci_tabella_input(@table);  
-        &crea_tabelle_madri;
+ open(FILEIN, '<', $filename) or die $!; 
+  $dir = getcwd;
+  $submit->destroy if ($submit);
+  if ($grid) {$label2->destroy; $grid->destroy; $panel_RIGHT->update_view();} 
+  $options_CLASS->destroy if ($options_CLASS); 
+  $options_CLASS_CHAINS->destroy if ($options_CLASS_CHAINS);
+  @table=(); 
+  @first_column=();
+  @names=();
+  @classes_unfiltered=(); 
+  @class_parsed=();
+  @total_first_column=();
+  @classes=();
+  @total_first_column_OX=();
+  @OX=();
+  @row=();
+  @splitted=();
+  $r=0;
+  while(<FILEIN>){
+	 chomp $_;
+	 $firstrow=$_;
+	 if ((!($_ =~ /\t/)) && ($_ ne '')) {     
+		@table=();
+		$opzioni_gruppi->destroy if $opzioni_gruppi;
+		$analisi->destroy if $analisi;
+		$label_gruppi->destroy if $label_gruppi;
+		Prima::MsgBox::message_box( 'LipidOne', "Invalid Format: please use TAB-delimited data", mb::Ok); 
+		last;
+	 }   
+	 if ($_ eq '') {     
+	 next;
+	 }
+	 $_ =~ s/,/\./g; 
+	 $_ =~ s/[_\/]0:0//g;
+	 @row=split ("\t",$_);
+	 if ($r<=1) { 
+		for ($c=0; $c<=$#row; $c++) { $table[$r][$c]=$row[$c]; } 
+		$r++;
+	  } 
+	elsif ($r>1) { 
+	@class_parsed=split (" ", $row[0]);
+	if (( () = $row[0] =~ m{_}g ) == $chains_for_classes{$class_parsed[0]}-1)   
+	   {
+	   for ($c=0; $c<=$#row; $c++) {  
+		  $table[$r][$c]=$row[$c]; 
+		  }
+	   push (@first_column , $row[0]);
+	   push (@classes_unfiltered, $class_parsed[0]);
+	   $r++;
+	   } 
+	}      
+ } 
+ close (FILEIN);
+ @classes = do { my %seen; grep { !$seen{$_}++ } @classes_unfiltered };
+ @classes= sort @classes;
+ foreach my $element (@first_column) 
+  {
+  $element=~ s/\s+$//; 
+  @splitted = split(/[_]/, $element );
+  if ($splitted[0]=~ /^[A-Za-z]/) {
+	  $splitted[0]=~ s/[A-Za-z;-]*\s//g; 
+	 } 
+  push (@total_first_column, @splitted);
+ }
+ @names = do { my %seen; grep { !$seen{$_}++ } @total_first_column };
+ @names= sort @names;
 
-        $submit=$panel_LEFT-> insert( Button =>
- 	   text   => '~SUBMIT',
-	   pack   => { side => 'bottom' , padx => 20 },
-          onClick => \&onSubmit
-       );
-     }
+foreach my $element (@first_column) {
+   @splitted_OX = split(/[_\-\s;()]/, $element );
+   if ($splitted_OX[0]=~ /^[A-Za-z]/) {
+		$splitted_OX[0]= ''; 
+	   } 
+  foreach my $element2 (@splitted_OX) {
+	  if (( () = $element2 =~ m{O}g ) > 0) {       
+		  push (@total_first_column_OX, $element2);
+		}
+   }
+ } 
+ @OX = do { my %seen; grep { !$seen{$_}++ } @total_first_column_OX };
+ @OX= sort @OX;
+  
+if ($firstrow =~ /\t/) {  
+	$image->destroy if $image;  
+	inserisci_tabella_input(@table);  
+	&crea_tabelle_madri;
+
+	$submit=$panel_LEFT-> insert( Button =>
+   text   => '~SUBMIT',
+   pack   => { side => 'bottom' , padx => 20 },
+	  onClick => \&onSubmit
+   );
  } 
 } 
 
@@ -1393,8 +1391,9 @@ sub export_table {
 } 
 
 sub onOpenFile(){
-	print "onOpenFile";
-	&open_file($open-> fileName,$open ->execute);
+	if($open->execute){
+		&open_file($open-> fileName);
+	}
 }
 
 sub onSubmit()
