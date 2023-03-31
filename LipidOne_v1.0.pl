@@ -114,6 +114,7 @@ sub open_file ()
  print "filename:".$filename;
  %tabella_madre=();
  open(FILEIN, '<', $filename) or die $!; 
+  # per ora globale
   $dir = getcwd;
   $submit->destroy if ($submit);
   if ($grid) {$label2->destroy; $grid->destroy; $panel_RIGHT->update_view();} 
@@ -705,83 +706,82 @@ sub CLASSES()
 
 sub collect_options()     
 {
- if ($radio1->checked) {
-    $titolo_analisi=$radio1->text;
-    $titolo_classe='';
-    &crea_file_gnuplot(1); 
-  }
- if ($radio2->checked) {
-    $selected_lenght=$options_CLASS_CHAINS_3->text;  
-    $titolo_analisi=$radio2->text;
-    if ($options_CLASS_CHAINS_1->checked)       
-        {
-        $options_CLASS->destroy if ($options_CLASS); 
-        $options_CLASS=() if ($options_CLASS);   
-        $titolo_classe='';
-        &crea_file_gnuplot(2);
-        }
-    if ($options_CLASS_CHAINS_2->checked) 
-        {
-         &CLASSES(); 
-         if (scalar(@elenco_classi) == 1)   
-           {
-           $titolo_classe=$elenco_classi[0];
-           &crea_file_gnuplot(2);
-           }
-        }
-  } 
- if ($radio3->checked) {
-     $titolo_analisi=$radio3->text;
-     if ($options_CLASS_CHAINS_1->checked)      
-        {
-        $options_CLASS->destroy if ($options_CLASS); 
-        $options_CLASS=() if ($options_CLASS);   
-        $titolo_classe='';
-        &crea_file_gnuplot(3);
-        }
-     if ($options_CLASS_CHAINS_2->checked) 
-        {
-         &CLASSES(); 
-         if (scalar(@elenco_classi) == 1)   
-           {
-           $titolo_classe=$elenco_classi[0];
-           &crea_file_gnuplot(3);
-           }
-        }
- } 
- if ($radio4->checked) {
-     &CLASSES(); 
-     $titolo_analisi=$radio4->text;
-     $titolo_classe=$elenco_classi[0];
-     &crea_file_gnuplot(4) if (scalar(@elenco_classi) == 1);
-}
- if ($radio5->checked) {
-     $titolo_analisi=$radio5->text;
-     $titolo_classe='';
-     &crea_file_gnuplot(5);
-   }
- if ($radio6->checked) {
-     $titolo_analisi=$radio6->text;
-     $titolo_classe='';
-     &crea_file_gnuplot(6);
-  }
+	my @elenco_gruppi=$_[0];
+	if ($radio1->checked){
+		$titolo_analisi=$radio1->text;
+		$titolo_classe='';
+		&crea_file_gnuplot(1,@elenco_gruppi); 
+	}
+	if ($radio2->checked) {
+		$selected_lenght=$options_CLASS_CHAINS_3->text;  
+		$titolo_analisi=$radio2->text;
+		if ($options_CLASS_CHAINS_1->checked){
+			$options_CLASS->destroy if ($options_CLASS); 
+			$options_CLASS=() if ($options_CLASS);   
+			$titolo_classe='';
+			&crea_file_gnuplot(2,@elenco_gruppi);
+		}
+		if ($options_CLASS_CHAINS_2->checked) {
+			&CLASSES(); 
+			if (scalar(@elenco_classi) == 1)   
+			{
+				$titolo_classe=$elenco_classi[0];
+				&crea_file_gnuplot(2,@elenco_gruppi);
+			}
+		}
+	} 
+	if ($radio3->checked) {
+		 $titolo_analisi=$radio3->text;
+		 if ($options_CLASS_CHAINS_1->checked)      
+			{
+			$options_CLASS->destroy if ($options_CLASS); 
+			$options_CLASS=() if ($options_CLASS);   
+			$titolo_classe='';
+			&crea_file_gnuplot(3,@elenco_gruppi);
+			}
+		if ($options_CLASS_CHAINS_2->checked) {
+			 &CLASSES(); 
+			 if (scalar(@elenco_classi) == 1)   
+			   {
+			   $titolo_classe=$elenco_classi[0];
+			   &crea_file_gnuplot(3,@elenco_gruppi);
+			   }
+		}
+	} 
+	 if ($radio4->checked) {
+		 &CLASSES(); 
+		 $titolo_analisi=$radio4->text;
+		 $titolo_classe=$elenco_classi[0];
+		 &crea_file_gnuplot(4,@elenco_gruppi) if (scalar(@elenco_classi) == 1);
+	}
+	 if ($radio5->checked) {
+		 $titolo_analisi=$radio5->text;
+		 $titolo_classe='';
+		 &crea_file_gnuplot(5,@elenco_gruppi);
+	   }
+	 if ($radio6->checked) {
+		 $titolo_analisi=$radio6->text;
+		 $titolo_classe='';
+		 &crea_file_gnuplot(6,@elenco_gruppi);
+	  }
 
- if ($radio7->checked) {
-     $titolo_analisi=$radio7->text;
-     $titolo_classe='';
-     $selected_chain_type=$options_CLASS_CHAINS_7->text; 
-     if ($selected_chain_type eq 'Select chain type:') {Prima::MsgBox::message_box( 'LipidOne', "Please select a chain type" , mb::Ok);}
-     else {    
-        $titolo_classe=$selected_chain_type;
-        &crea_file_gnuplot(7);
-     }
-  }
+	 if ($radio7->checked) {
+		 $titolo_analisi=$radio7->text;
+		 $titolo_classe='';
+		 $selected_chain_type=$options_CLASS_CHAINS_7->text; 
+		 if ($selected_chain_type eq 'Select chain type:') {Prima::MsgBox::message_box( 'LipidOne', "Please select a chain type" , mb::Ok);}
+		 else {    
+			$titolo_classe=$selected_chain_type;
+			&crea_file_gnuplot(7,@elenco_gruppi);
+		 }
+	  }
 } 
 
 
 sub crea_file_gnuplot ()
 {
- $parametro=$_[0]; 
+ my $parametro=$_[0]; 
+ my @elenco_gruppi = $_[1];
  print "\ncrea file gnuplot chiamato con parametro: ".$parametro;
  @catene_in_classe=();
  @asseXgraph2=();
@@ -1097,9 +1097,9 @@ sub crea_file_gnuplot ()
   } 
  }
   close (FILEOUT);
-  if ($options_ERROR) {if ($options_ERROR->Standard_error->checked) { &crea_image(1,$titolo_analisi,$titolo_classe);  }}
-  if ($options_ERROR) {if ($options_ERROR->Standard_deviation->checked) { &crea_image(1,$titolo_analisi,$titolo_classe); }}
-  if ($options_ERROR) {if ($options_ERROR->None->checked) {&crea_image(0,$titolo_analisi,$titolo_classe);  }}
+  if ($options_ERROR) {if ($options_ERROR->Standard_error->checked) { &crea_image(1,$titolo_analisi,$titolo_classe,@elenco_gruppi);  }}
+  if ($options_ERROR) {if ($options_ERROR->Standard_deviation->checked) { &crea_image(1,$titolo_analisi,$titolo_classe,@elenco_gruppi); }}
+  if ($options_ERROR) {if ($options_ERROR->None->checked) {&crea_image(0,$titolo_analisi,$titolo_classe,@elenco_gruppi);  }}
 }
 
 
@@ -1108,6 +1108,7 @@ sub crea_image()
   my $param=$_[0];  
   my $title_analysis=$_[1];
   my $title_class=$_[2];
+  my @elenco_gruppi=$_[3];
   print "\ncrea_image chiamato con i parametri:";
   print "\nparametro0: ".$param;
   print "\nparametro1: ".$title_analysis;
@@ -1398,14 +1399,14 @@ sub onOpenFile(){
 
 sub onSubmit()
 {
-	@elenco_gruppi=();
+	my @elenco_gruppi=();
 	if (  $opzioni_gruppi-> count) {
 		for ( 0 .. $opzioni_gruppi-> count - 1) {
 			printf $opzioni_gruppi-> get_item_text($_);
 			push @elenco_gruppi, $opzioni_gruppi-> get_item_text($_) if $opzioni_gruppi-> button($_);
 		}
 	}
-	&collect_options; 
+	&collect_options(@elenco_gruppi); 
 	&load_image;
 }
 Prima->run;
