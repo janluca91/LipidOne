@@ -111,7 +111,7 @@ $::application-> close;
 sub open_file ()
 {
  my $filename= $_[0];
- print "filename:".$filename;
+ print "\nfilename:".$filename;
  %tabella_madre=();
  open(FILEIN, '<', $filename) or die $!; 
   $dir = getcwd;
@@ -139,7 +139,7 @@ sub open_file ()
 		$opzioni_gruppi->destroy if $opzioni_gruppi;
 		$analisi->destroy if $analisi;
 		$label_gruppi->destroy if $label_gruppi;
-		Prima::MsgBox::message_box( 'LipidOne', "Invalid Format: please use TAB-delimited data", mb::Ok); 
+		print "\nInvalid Format: please use TAB-delimited data"; 
 		last;
 	 }   
 	 if ($_ eq '') {     
@@ -626,7 +626,7 @@ sub populate_menu ()
 
 sub crea_tabelle_madri ()
 {
-  print "PRE-PROCESSING...\n";
+  print "\nPRE-PROCESSING...\n";
   $p=0;
   $spinner = $panel_LEFT->insert('Spinner',
          	style => 'circle',
@@ -697,9 +697,9 @@ sub CLASSES()
  }
  if (@elenco_classi) {  
     if (scalar(@elenco_classi) != 1) 
-       { Prima::MsgBox::message_box( 'LipidOne', "ALERT: Select only ONE class..", mb::Ok); }
+       { print "\nALERT: Select only ONE class.."; }
    }
-  else { Prima::MsgBox::message_box( 'LipidOne', "ALERT: Select a class...", mb::Ok); } 
+  else { print "\nALERT: Select a class..."; } 
 }
 
 
@@ -770,7 +770,7 @@ sub collect_options()
      $titolo_analisi=$radio7->text;
      $titolo_classe='';
      $selected_chain_type=$options_CLASS_CHAINS_7->text; 
-     if ($selected_chain_type eq 'Select chain type:') {Prima::MsgBox::message_box( 'LipidOne', "Please select a chain type" , mb::Ok);}
+     if ($selected_chain_type eq 'Select chain type:') { print "\nPlease select a chain type";}
      else {    
         $titolo_classe=$selected_chain_type;
         &crea_file_gnuplot(7);
@@ -1386,7 +1386,7 @@ sub export_table {
   }
  else 
  {
- Prima::MsgBox::message_box( 'LipidOne', "ERROR: please, upload a dataset." , mb::Ok);
+	print "\nERROR: please, upload a dataset." ;
  }
 } 
 
