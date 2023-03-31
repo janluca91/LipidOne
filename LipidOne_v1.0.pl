@@ -120,7 +120,7 @@ sub open_file ()
   if ($grid) {$label2->destroy; $grid->destroy; $panel_RIGHT->update_view();} 
   $options_CLASS->destroy if ($options_CLASS); 
   $options_CLASS_CHAINS->destroy if ($options_CLASS_CHAINS);
-  @table=(); 
+  my @table=(); 
   @first_column=();
   @names=();
   @classes_unfiltered=(); 
@@ -198,7 +198,7 @@ foreach my $element (@first_column) {
 if ($firstrow =~ /\t/) {  
 	$image->destroy if $image;  
 	inserisci_tabella_input(@table);  
-	&crea_tabelle_madri;
+	&crea_tabelle_madri(@table);
 
 	$submit=$panel_LEFT-> insert( Button =>
    text   => '~SUBMIT',
@@ -212,7 +212,7 @@ if ($firstrow =~ /\t/) {
 
 sub inserisci_tabella_input()
 {
- @table=@_;
+ my @table=@_;
  if (@table) {
  $grid=$panel_RIGHT->insert('Prima::Grid', 
          name => 'Grid1',
@@ -628,6 +628,7 @@ sub populate_menu ()
 sub crea_tabelle_madri ()
 {
   print "PRE-PROCESSING...\n";
+  my @table=@_;
   $p=0;
   $spinner = $panel_LEFT->insert('Spinner',
          	style => 'circle',
@@ -1333,6 +1334,7 @@ sub load_image ()
 
 
 sub export_table {
+ my @table=@_;
  if (@table) 
   {
   @gruppi_export=values %samples;
