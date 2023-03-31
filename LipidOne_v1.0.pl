@@ -212,7 +212,7 @@ if ($firstrow =~ /\t/) {
 
 sub inserisci_tabella_input()
 {
- my @table=@_;
+ @table=@_;
  if (@table) {
  $grid=$panel_RIGHT->insert('Prima::Grid', 
          name => 'Grid1',
@@ -1334,7 +1334,6 @@ sub load_image ()
 
 
 sub export_table {
- my @table=@_;
  if (@table) 
   {
   @gruppi_export=values %samples;
